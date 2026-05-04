@@ -48,29 +48,30 @@ Users can create projects, assign tasks, and track progress in a simple dashboar
 ##  How to run this project
 
 1. Clone the repository:
+
    ```
    git clone https://github.com/harika1910/team-task-manager.git
-```
+   ```
 
-2. Go into the folder:
+3. Go into the folder:
 
    ```
    cd team-task-manager
    ```
 
-3. Install required packages:
+4. Install required packages:
 
    ```
    pip install -r requirements.txt
    ```
 
-4. Run the app:
+5. Run the app:
 
    ```
    python app.py
    ```
 
-5. Open in browser:
+6. Open in browser:
 
    ```
    http://127.0.0.1:5000/
@@ -99,4 +100,4 @@ This project is built to demonstrate:
 * Frontend-backend integration
 
 ---
-
+```
