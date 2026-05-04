@@ -48,25 +48,25 @@ Users can create projects, assign tasks, and track progress in a simple dashboar
 ##  How to run this project
 
 1. Clone the repository:
-   ```bash
+   ```
    git clone https://github.com/harika1910/team-task-manager.git
-````
+```
 
 2. Go into the folder:
 
-   ```bash
+   ```
    cd team-task-manager
    ```
 
 3. Install required packages:
 
-   ```bash
+   ```
    pip install -r requirements.txt
    ```
 
 4. Run the app:
 
-   ```bash
+   ```
    python app.py
    ```
 
