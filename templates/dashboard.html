@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+<h2>Dashboard</h2>
+
+<h3>Create Project</h3>
+<input id="project_name" placeholder="Project Name">
+<button onclick="createProject()">Create Project</button>
+
+<h3>Create Task</h3>
+<input id="title" placeholder="Task Title"><br>
+<input id="desc" placeholder="Description"><br>
+<input id="project_id" placeholder="Project ID"><br>
+<button onclick="createTask()">Create Task</button>
+
+<h3>All Tasks</h3>
+<button onclick="loadTasks()">Load Tasks</button>
+<div id="taskList"></div>
+
+<h3>Dashboard Stats</h3>
+<button onclick="loadDashboard()">Load Stats</button>
+<p id="stats"></p>
+</div>
+
+<script>
+
+async function createProject() {
+    await fetch("/projects", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            name: document.getElementById("project_name").value,
+            created_by: localStorage.getItem("user_id")
+        })
+    });
+
+    alert("Project created");
+}
+
+async function createTask() {
+    await fetch("/tasks", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            title: document.getElementById("title").value,
+            description: document.getElementById("desc").value,
+            assigned_to: localStorage.getItem("user_id"),
+            project_id: document.getElementById("project_id").value
+        })
+    });
+
+    alert("Task created");
+}
+
+async function loadTasks() {
+    const res = await fetch("/tasks");
+    const tasks = await res.json();
+
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+
+    tasks.forEach(task => {
+        const div = document.createElement("div");
+        div.className = "task";
+
+        div.innerHTML = `
+            <b>${task.title}</b><br>
+            Status: ${task.status}<br>
+            <button onclick="completeTask(${task.id})">Mark Completed</button>
+        `;
+
+        taskList.appendChild(div);
+    });
+}
+
+async function completeTask(id) {
+    await fetch(`/tasks/${id}`, {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            status: "Completed"
+        })
+    });
+
+    alert("Task marked as completed");
+    loadTasks();
+}
+
+async function loadDashboard() {
+    const res = await fetch("/dashboard");
+    const data = await res.json();
+
+    document.getElementById("stats").innerText =
+        "Total: " + data.total_tasks +
+        " | Completed: " + data.completed_tasks +
+        " | Pending: " + data.pending_tasks;
+}
+
+</script>
+
+</body>
+</html>
